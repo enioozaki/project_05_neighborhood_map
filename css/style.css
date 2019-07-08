@@ -16,7 +16,7 @@
       }
 
       h1 {
-        color: #525454;
+        color: #ddd;
         font-size: 22px;
         margin: 0 0 10px 0;
         text-align: center;
@@ -80,3 +80,39 @@
       #zoom-to-area {
         width: 24%;
       }
+
+/* 
+Location Menu
+*/
+/*
+.location-menu {
+    background-color: #232afa;
+}
+*/
+.location-menu,
+.location-menu ul {
+    background-color: #232afa;
+	padding-left: 10px;
+    padding-right: 10px;
+}
+
+.location-menu,
+.siderbar-info {
+    padding-top: 15px;
+}
+
+.location-menu li {
+    display: block;
+    padding: 5px 5px;
+    color: white;
+}
+
+.location-menu li:hover
+ /*,
+.location-menu li:active,
+.location-menu-selected */
+{
+    background-color: #7cff24;
+	color: black;
+}
+

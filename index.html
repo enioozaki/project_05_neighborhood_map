@@ -9,12 +9,13 @@
   </head>
   <body>
     <div class="container">
-      <div class="options-box">
+      <div class="options-box location-menu">
         <h1>My Casual Restaurants</h1>
         <ul data-bind="foreach: favoritePlacesList">
           <li data-bind="text: title, click: $parent.locationClick"></li>
-      </ul>
-        <div>
+		</ul>
+        <!--
+		<div>
           <input id="show-listings" type="button" value="Show Listings">
           <input id="hide-listings" type="button" value="Hide Listings">
           <hr>
@@ -27,6 +28,7 @@
           <input id="zoom-to-area" type="button" value="Zoom">
         </div>
         <hr>
+		-->
         <!--
         <div>
           <span class="text"> Within </span>
@@ -48,15 +50,18 @@
         </div>
         <hr>
       -->
-        <div>
+        <!--
+		<div>
           <span class="text">Search for nearby places</span>
           <input id="places-search" type="text" placeholder="Ex: Pizza delivery in NYC">
           <input id="go-places" type="button" value="Go">
         </div>
+		-->
       </div>
       <div id="map"></div>
     </div>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/app.js"></script>
     <script async defer

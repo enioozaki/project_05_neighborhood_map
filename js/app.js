@@ -1,12 +1,48 @@
 // MODEL
 var model = {
   locations: [
-    {title: 'A Chapa Hamburgers', location: {lat: -23.5754431, lng: -46.6226764}, placeId: 'ChIJ_bFrm8tZzpQRSclyzDinrV0'},
-    {title: '1900 Pizzeria', location: {lat: -23.5945034, lng: -46.6422251}, placeId: 'ChIJ0zuA8SVazpQRaGnZGc3EVn4'},
-    {title: 'Vila Grano Paes', location: {lat: -23.5972949, lng: -46.6402278}, placeId: 'ChIJOddf3S9azpQRwZI-YDP8wSY'},
-    {title: 'Nara Obento', location: {lat: -23.6147888, lng: -46.63768210000001}, placeId: 'ChIJWwjHig9bzpQRgrIE0bJGqbk'},
-    {title: 'O Brazeiro', location: {lat: -23.6042015, lng: -46.6357551}, placeId: 'ChIJhR2ryDVazpQRzNksnLcqagA'},
-    {title: 'Charles Pizzaria', location: {lat: -23.6157234, lng: -46.6434492}, placeId: 'ChIJI_rvBUVazpQRyf17kS3uQgE'}
+    {
+		title: 'A Chapa Hamburgers', 
+		location: {lat: -23.5754431, lng: -46.6226764}, 
+		placeId: 'ChIJ_bFrm8tZzpQRSclyzDinrV0',
+		marker: [],
+		current: false
+	},
+    {
+		title: '1900 Pizzeria', 
+		location: {lat: -23.5945034, lng: -46.6422251}, 
+		placeId: 'ChIJ0zuA8SVazpQRaGnZGc3EVn4',
+		marker: [],
+		current: false
+	},
+    {
+		title: 'Vila Grano Paes', 
+		location: {lat: -23.5972949, lng: -46.6402278}, 
+		placeId: 'ChIJOddf3S9azpQRwZI-YDP8wSY',
+		marker: [],
+		current: false
+	},
+    {
+		title: 'Nara Obento', 
+		location: {lat: -23.6147888, lng: -46.63768210000001}, 
+		placeId: 'ChIJWwjHig9bzpQRgrIE0bJGqbk',
+		marker: [],
+		current: false
+	},
+    {
+		title: 'O Brazeiro', 
+		location: {lat: -23.6042015, lng: -46.6357551}, 
+		placeId: 'ChIJhR2ryDVazpQRzNksnLcqagA',
+		marker: [],
+		current: false
+	},
+    {
+		title: 'Charles Pizzaria', 
+		location: {lat: -23.6157234, lng: -46.6434492}, 
+		placeId: 'ChIJI_rvBUVazpQRyf17kS3uQgE',
+		marker: [],
+		current: false
+	}
   ]
 };
 
@@ -14,6 +50,8 @@ var FavoritePlace = function(data) {
   this.title = ko.observable(data.title);
   this.location = ko.observable(data.location);
   this.placeId = ko.observable(data.placeId);
+  this.marker = ko.observableArray(data.marker);
+  this.current = ko.observable(data.current);
   /*
   this.title = ko.computed(function(){
       var title;
@@ -32,22 +70,6 @@ var FavoritePlace = function(data) {
   */
 }
 
-var ViewModel = function() {
-  var self = this;
-
-  this.favoritePlacesList = ko.observableArray([]);
-
-  model.locations.forEach(function(location) {
-      self.favoritePlacesList.push( new FavoritePlace(location));
-  })
-
-  this.locationClick = function(clickedCat) {
-    console.log('click')
-    //self.currentCat(clickedCat);
-}
-}
-
-ko.applyBindings(new ViewModel());
 
       var map;
 
@@ -60,6 +82,9 @@ ko.applyBindings(new ViewModel());
       // Create placemarkers array to use in multiple functions to have control
       // over the number of places that show.
       var placeMarkers = [];
+	  var defaultIcon = null;
+	  var highlightedIcon = null;
+	  var largeInfowindow = null;
 
       function initMap() {
         // Create a styles array to use with the map.
@@ -328,7 +353,8 @@ ko.applyBindings(new ViewModel());
         ////var timeAutocomplete = new google.maps.places.Autocomplete(
         ////    document.getElementById('search-within-time-text'));
         // This autocomplete is for use in the geocoder entry box.
-        var zoomAutocomplete = new google.maps.places.Autocomplete(
+        /*
+		var zoomAutocomplete = new google.maps.places.Autocomplete(
             document.getElementById('zoom-to-area-text'));
         // Bias the boundaries within the map for the zoom to area text.
         zoomAutocomplete.bindTo('bounds', map);
@@ -340,11 +366,12 @@ ko.applyBindings(new ViewModel());
 
         // These are the place listings that will be shown to the user.
         // Normally we'd have these in a database instead.
+		*/
 
+        largeInfowindow = new google.maps.InfoWindow();
 
-        var largeInfowindow = new google.maps.InfoWindow();
-
-        // Initialize the drawing manager.
+        /*
+		// Initialize the drawing manager.
         var drawingManager = new google.maps.drawing.DrawingManager({
           drawingMode: google.maps.drawing.OverlayType.POLYGON,
           drawingControl: true,
@@ -355,18 +382,27 @@ ko.applyBindings(new ViewModel());
             ]
           }
         });
+		*/
 
         // Style the markers a bit. This will be our listing marker icon.
-        var defaultIcon = makeMarkerIcon('232afa');
+        defaultIcon = makeMarkerIcon('232afa');
 
         // Create a "highlighted location" marker color for when the user
         // mouses over the marker.
-        var highlightedIcon = makeMarkerIcon('7cff24');
+        highlightedIcon = makeMarkerIcon('7cff24');
 
         // The following group uses the location array to create an array of markers on initialize.
         for (var i = 0; i < model.locations.length; i++) {
           // Get the position from the location array.
           var position = model.locations[i].location;
+		  console.log('position')
+		  console.log(position)
+			for (var key in position) {
+				this[key] = position[key];
+			}
+		  console.log(lat)
+		  console.log(lng)
+
           var title = model.locations[i].title;
           var placeId = model.locations[i].placeId;
           // Create a marker per location, and put into markers array.
@@ -376,8 +412,12 @@ ko.applyBindings(new ViewModel());
             animation: google.maps.Animation.DROP,
             icon: defaultIcon,
             //id: i,
-            id: placeId
+            id: placeId, 
+			lat:lat, 
+			lng: lng
           });
+			
+		  model.locations[i].marker.push(marker);
           // Push the marker to our array of markers.
           markers.push(marker);
           // Create an onclick event to open the large infowindow at each marker.
@@ -395,18 +435,23 @@ ko.applyBindings(new ViewModel());
           });
         }
 
+		showListings();
+		/*
         document.getElementById('show-listings').addEventListener('click', showListings);
         document.getElementById('hide-listings').addEventListener('click', function() {
           hideMarkers(markers);
         });
-
+		*/
+		/*
         document.getElementById('toggle-drawing').addEventListener('click', function() {
           toggleDrawing(drawingManager);
         });
-
+		*/
+		/*
         document.getElementById('zoom-to-area').addEventListener('click', function() {
           zoomToArea();
         });
+		*/
 
         //document.getElementById('search-within-time').addEventListener('click', function() {
         // searchWithinTime();
@@ -414,18 +459,23 @@ ko.applyBindings(new ViewModel());
 
         // Listen for the event fired when the user selects a prediction from the
         // picklist and retrieve more details for that place.
-        searchBox.addListener('places_changed', function() {
+        /*
+		searchBox.addListener('places_changed', function() {
           searchBoxPlaces(this);
         });
+		*/
 
         // Listen for the event fired when the user selects a prediction and clicks
         // "go" more details for that place.
-        document.getElementById('go-places').addEventListener('click', textSearchPlaces);
+        /*
+		document.getElementById('go-places').addEventListener('click', textSearchPlaces);
+		*/
 
         // Add an event listener so that the polygon is captured,  call the
         // searchWithinPolygon function. This will show the markers in the polygon,
         // and hide any outside of it.
-        drawingManager.addListener('overlaycomplete', function(event) {
+        /*
+		drawingManager.addListener('overlaycomplete', function(event) {
           // First, check if there is an existing polygon.
           // If there is, get rid of it and remove the markers
           if (polygon) {
@@ -443,6 +493,7 @@ ko.applyBindings(new ViewModel());
           polygon.getPath().addListener('set_at', searchWithinPolygon);
           polygon.getPath().addListener('insert_at', searchWithinPolygon);
         });
+		*/
       }
 
       // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -523,6 +574,7 @@ ko.applyBindings(new ViewModel());
         return markerImage;
       }
 
+	  /*
       // This shows and hides (respectively) the drawing options.
       function toggleDrawing(drawingManager) {
         if (drawingManager.map) {
@@ -535,11 +587,13 @@ ko.applyBindings(new ViewModel());
           drawingManager.setMap(map);
         }
       }
+	  */
 
       // This function hides all markers outside the polygon,
       // and shows only the ones within it. This is so that the
       // user can specify an exact area of search.
-      function searchWithinPolygon() {
+      /*
+	  function searchWithinPolygon() {
         for (var i = 0; i < markers.length; i++) {
           if (google.maps.geometry.poly.containsLocation(markers[i].position, polygon)) {
             markers[i].setMap(map);
@@ -548,11 +602,13 @@ ko.applyBindings(new ViewModel());
           }
         }
       }
+	  */
 
       // This function takes the input value in the find nearby area text input
       // locates it, and then zooms into that area. This is so that the user can
       // show all listings, then decide to focus on one area of the map.
-      function zoomToArea() {
+      /*
+	  function zoomToArea() {
         // Initialize the geocoder.
         var geocoder = new google.maps.Geocoder();
         // Get the address or place that the user entered.
@@ -576,8 +632,9 @@ ko.applyBindings(new ViewModel());
                     ' specific place.');
               }
             });
-          }
         }
+      }
+	  */
 
       // This function allows the user to input a desired travel time, in
       // minutes, and a travel mode, and a location - and only show the listings
@@ -621,7 +678,8 @@ ko.applyBindings(new ViewModel());
 
       // This function will go through each of the results, and,
       // if the distance is LESS than the value in the picker, show it on the map.
-      function displayMarkersWithinTime(response) {
+      /*
+	  function displayMarkersWithinTime(response) {
         var maxDuration = document.getElementById('max-duration').value;
         var origins = response.originAddresses;
         var destinations = response.destinationAddresses;
@@ -668,6 +726,7 @@ ko.applyBindings(new ViewModel());
           window.alert('We could not find any locations within that distance!');
         }
       }
+	  */
       /*
       // This function is in response to the user seelecting "show route" on one
       // of the markers within the desired commute. This will display the route
@@ -705,7 +764,8 @@ ko.applyBindings(new ViewModel());
       // This function is in response to the user selecting "show route" on one
       // of the markers within the calculated distance. This will display the route
       // on the map.
-      function displayDirections(origin) {
+      /*
+	  function displayDirections(origin) {
         hideMarkers(markers);
         var directionsService = new google.maps.DirectionsService;
         // Get the destination address from the user entered value.
@@ -734,11 +794,13 @@ ko.applyBindings(new ViewModel());
           }
         });
       }
+	  */
       
 
       // This function fires when the user selects a searchbox picklist item.
       // It will do a nearby search using the selected query string or place.
-      function searchBoxPlaces(searchBox) {
+      /*
+	  function searchBoxPlaces(searchBox) {
         hideMarkers(placeMarkers);
         var places = searchBox.getPlaces();
         // For each place, get the icon, name and location.
@@ -747,10 +809,12 @@ ko.applyBindings(new ViewModel());
           window.alert('We did not find any places matching that search!');
         }
       }
+	  */
 
       // This function firest when the user select "go" on the places search.
       // It will do a nearby search using the entered query string or place.
-      function textSearchPlaces() {
+      /*
+	  function textSearchPlaces() {
         var bounds = map.getBounds();
         hideMarkers(placeMarkers);
         var placesService = new google.maps.places.PlacesService(map);
@@ -763,6 +827,7 @@ ko.applyBindings(new ViewModel());
           }
         });
       }
+	  */
 
       // This function creates markers for each place found in either places search.
       function createMarkersForPlaces(places) {
@@ -810,8 +875,47 @@ ko.applyBindings(new ViewModel());
     // executed when a marker is selected, indicating the user wants more
     // details about that place.
     function getPlacesDetails(marker, infowindow) {
-      console.log(marker)
+      markers.forEach(function(marker) {
+		 console.log(marker);
+		 marker.setAnimation(null);
+		 marker.setIcon(defaultIcon)
+	  });
+	  console.log(marker)
+	  marker.setAnimation(google.maps.Animation.BOUNCE);
+	  marker.setIcon(highlightedIcon);
       var service = new google.maps.places.PlacesService(map);
+	  
+	  		/*
+			var x = marker.position;
+			for (var key in x) {
+				this[key] = x[key];
+			}
+		  console.log(lat)
+		  console.log(lng)
+		  
+	  
+	  var latitude = marker.position().lat;
+	  var longitude = marker.position().lng;
+	  */
+	  console.log('latlng')
+	  console.log(lat)
+	  console.log(lng)
+	  //var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + lat + ',' + lng +
+	  //     '&client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118&query=restaurante&limit=5'
+	  var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + lat + ',' + lng +
+	        '&client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118&categoryId=4c38df4de52ce0d596b336e1&limit=5'
+	  
+	  //categoryId=4c38df4de52ce0d596b336e1
+	  
+	  	$.getJSON(foursquareURL, function( data ) {
+	        for (var i = 0; i < data.response.venues.length; i++) {
+	        	var response = data.response.venues[i];
+	        	console.log(response)
+	        }
+	    }).fail(function(){
+	        alert("Tivemos um problema, tente carregar novamente a página.");
+	    });
+	  
       service.getDetails({
         placeId: marker.id
       }, function(place, status) {
@@ -851,4 +955,50 @@ ko.applyBindings(new ViewModel());
           });
         }
       });
+	  //marker.setAnimation(null);
     }
+
+var ViewModel = function() {
+  var self = this;
+
+  this.favoritePlacesList = ko.observableArray([]);
+
+  model.locations.forEach(function(location) {
+      self.favoritePlacesList.push( new FavoritePlace(location));
+  })
+
+  this.locationClick = function(clickedLocation) {
+    console.log('click')
+	console.log(this)
+	//for (var i = 0; i < model.locations.length; i++) {
+	//	model.locations[i].marker()[0].setIcon(defaultIcon);
+	//};
+	//hideMarkers(markers);
+	//showListings(markers);
+    //clickedLocation.marker()[0].setIcon(highlightedIcon);
+    clickedLocation.current(true);
+    getPlacesDetails(clickedLocation.marker()[0], largeInfowindow)
+
+	//getPlacesDetails(this, largeInfowindow)
+    //self.currentCat(clickedCat);
+  }
+	/*
+    this.selecionarLugar = function(lugar){
+		console.log('selecionarLugar')
+    	// Deixa todos marcadores com aparencia padrão
+        for (let i = 0; i < self.lugarLista().length; i++) {
+           self.lugarLista()[i].marcador()[0].setIcon(pinMarkPadrao);
+           self.lugarLista()[i].destacado(false);
+        }
+        // Destaca o marcador selecionado
+        lugar.marcador()[0].setIcon(pinMarkSelecionado);
+        lugar.destacado(true);
+        populateInfoWindow(lugar.marcador()[0], largeInfowindow)
+     
+    }
+	*/
+
+}
+
+ko.applyBindings(new ViewModel());
+
