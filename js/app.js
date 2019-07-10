@@ -974,8 +974,8 @@ var largeInfowindow = null;
         marker.setIcon(defaultIcon)
       });
 	  console.log(marker)
-	  marker.setAnimation(google.maps.Animation.BOUNCE);
-	  marker.setIcon(highlightedIcon);
+	  //marker.setAnimation(google.maps.Animation.BOUNCE);
+	  //marker.setIcon(highlightedIcon);
       var service = new google.maps.places.PlacesService(map);
 	  
 	  		/*
@@ -1079,6 +1079,9 @@ var largeInfowindow = null;
             innerHTML += '</div>';
             infowindow.setContent(innerHTML);
             infowindow.open(map, marker);
+		  marker.setAnimation(google.maps.Animation.BOUNCE);
+		  marker.setIcon(highlightedIcon);
+
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick', function() {
               infowindow.marker = null;
@@ -1367,7 +1370,7 @@ var ViewModel = function() {
 	//hideMarkers(markers);
 	//showListings(markers);
     //clickedLocation.marker()[0].setIcon(highlightedIcon);
-    clickedLocation.current(true);
+    //clickedLocation.current(true);
     getPlacesDetails(clickedLocation.marker()[0], largeInfowindow)
 
 	//getPlacesDetails(this, largeInfowindow)

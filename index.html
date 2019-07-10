@@ -34,7 +34,9 @@
                   
               </div>
               -->
-              <select data-bind="options: choices, value: selectedChoice"></select>
+			  <div class="selection">
+				<select data-bind="options: choices, value: selectedChoice"></select>
+			  </div>
           </div>
           <ul data-bind="foreach: favoritePlacesList">
             <li data-bind="text: title, click: $parent.locationClick"></li>

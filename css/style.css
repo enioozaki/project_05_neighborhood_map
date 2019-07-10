@@ -121,6 +121,7 @@ Location Menu
 .filter {
   text-align: left;
   margin-top: 10px;
+  margin-left: 20px;
 }
 
 .filter-title h2 {
@@ -129,9 +130,10 @@ Location Menu
   margin-bottom: 0;
 }
 
-.dropdown {
+.selection {
   display: block;
   margin-bottom: 20px;
+  font-size: 12px;
 }
 
 .filter-lst select {
@@ -140,16 +142,3 @@ Location Menu
   height: 30px;
 }
 
-.filter-btn {
-  background-color: black;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  font-size: 12px;
-}
-
-.filter-btn:active {
-  background-color: darkgray;
-  color: black;
-}
