@@ -11,10 +11,35 @@
     <div class="container">
       <div class="options-box location-menu">
         <h1>My Casual Restaurants</h1>
-        <ul data-bind="foreach: favoritePlacesList">
-          <li data-bind="text: title, click: $parent.locationClick"></li>
-		</ul>
-        <!--
+          <div class="filter">
+              <div class="filter-title">
+                  <h2>Categories</h2>
+              </div>
+              <!--
+              <div class="dropdown">
+                  <div class="filter-lst">
+                      
+                      <select data-bind="value: chosenSelection, event:{ change: $parent.selectionChanged}"></select>
+                        <option value="all">All</option>
+                          <option value="pizza">Pizza</option>
+                          <option value="japanese">Japanese</option>
+                          <option value="korean">Korean</option>
+                          <option value="sandwich">Sandwiches</option>
+                      </select>
+                  </div>
+                  
+                  <div>
+                      <button class="filter-btn" type="button" data-bind="click: setFilter">Select Category</button>
+                  </div>
+                  
+              </div>
+              -->
+              <select data-bind="options: choices, value: selectedChoice"></select>
+          </div>
+          <ul data-bind="foreach: favoritePlacesList">
+            <li data-bind="text: title, click: $parent.locationClick"></li>
+          </ul>
+          <!--
 		<div>
           <input id="show-listings" type="button" value="Show Listings">
           <input id="hide-listings" type="button" value="Hide Listings">
@@ -61,7 +86,8 @@
       <div id="map"></div>
     </div>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/app.js"></script>
     <script async defer

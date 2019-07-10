@@ -2,47 +2,80 @@
 var model = {
   locations: [
     {
-		title: 'A Chapa Hamburgers', 
-		location: {lat: -23.5754431, lng: -46.6226764}, 
-		placeId: 'ChIJ_bFrm8tZzpQRSclyzDinrV0',
-		marker: [],
-		current: false
-	},
+      title: 'A Chapa Hamburgers', 
+      location: {lat: -23.5754431, lng: -46.6226764}, 
+      placeId: 'ChIJ_bFrm8tZzpQRSclyzDinrV0',
+      marker: [],
+      current: false,
+      category: 'burgers'
+    },
     {
-		title: '1900 Pizzeria', 
-		location: {lat: -23.5945034, lng: -46.6422251}, 
-		placeId: 'ChIJ0zuA8SVazpQRaGnZGc3EVn4',
-		marker: [],
-		current: false
-	},
+      title: '1900 Pizzeria', 
+      //location: {lat: -23.5945034, lng: -46.6422251}, 
+      location: {lat: -23.5945148, lng: -46.6420329}, 
+      placeId: 'ChIJ0zuA8SVazpQRaGnZGc3EVn4',
+      marker: [],
+      current: false,
+      category: 'pizza'
+    },
     {
-		title: 'Vila Grano Paes', 
-		location: {lat: -23.5972949, lng: -46.6402278}, 
-		placeId: 'ChIJOddf3S9azpQRwZI-YDP8wSY',
-		marker: [],
-		current: false
-	},
+      title: 'Vila Grano Paes', 
+      //location: {lat: -23.5972949, lng: -46.6402278}, 
+      location: {lat: -23.5972376, lng: -46.640349}, 
+      placeId: 'ChIJOddf3S9azpQRwZI-YDP8wSY',
+      marker: [],
+      current: false,
+      category: 'bakery'
+    },
     {
-		title: 'Nara Obento', 
-		location: {lat: -23.6147888, lng: -46.63768210000001}, 
-		placeId: 'ChIJWwjHig9bzpQRgrIE0bJGqbk',
-		marker: [],
-		current: false
-	},
+      title: 'O Brazeiro', 
+      location: {lat: -23.6042015, lng: -46.6357551}, 
+      placeId: 'ChIJhR2ryDVazpQRzNksnLcqagA',
+      marker: [],
+      current: false,
+      category: 'brazilian'
+    },
     {
-		title: 'O Brazeiro', 
-		location: {lat: -23.6042015, lng: -46.6357551}, 
-		placeId: 'ChIJhR2ryDVazpQRzNksnLcqagA',
-		marker: [],
-		current: false
-	},
+      title: 'Charles Pizzaria', 
+      //location: {lat: -23.6157234, lng: -46.6434492}, 
+      location: {lat: -23.6159849, lng: -46.6434456}, 
+      placeId: 'ChIJI_rvBUVazpQRyf17kS3uQgE',
+      marker: [],
+      current: false,
+      category: 'pizza'
+    },
     {
-		title: 'Charles Pizzaria', 
-		location: {lat: -23.6157234, lng: -46.6434492}, 
-		placeId: 'ChIJI_rvBUVazpQRyf17kS3uQgE',
-		marker: [],
-		current: false
-	}
+      title: 'Tanka', 
+      location: {lat: -23.555263, lng: -46.635161}, 
+      placeId: 'ChIJL7T4G6lZzpQR1pzauoGi1gI',
+      marker: [],
+      current: false,
+      category: 'japanese'
+    },
+    {
+      title: 'Espaco Kazu', 
+      location: {lat: -23.557874, lng: -46.63553}, 
+      placeId: 'ChIJMZ9an6hZzpQRUrj4GXD11t8',
+      marker: [],
+      current: false,
+      category: 'japanese'
+    },
+    {
+      title: 'Korea House', 
+      location: {lat: -23.5559502, lng: -46.6352005}, 
+      placeId: 'ChIJ045q5KhZzpQRpKqzA6f3mvg',
+      marker: [],
+      current: false,
+      category: 'korean'
+    },
+    {
+      title: 'Iroha', 
+      location: {lat: -23.6095318, lng: -46.6371273}, 
+      placeId: 'ChIJITqnZklazpQRhVgx6_Auw-o',
+      marker: [],
+      current: false,
+      category: 'japanese'
+    }
   ]
 };
 
@@ -52,6 +85,7 @@ var FavoritePlace = function(data) {
   this.placeId = ko.observable(data.placeId);
   this.marker = ko.observableArray(data.marker);
   this.current = ko.observable(data.current);
+  this.category = ko.observable(data.category);
   /*
   this.title = ko.computed(function(){
       var title;
@@ -70,21 +104,24 @@ var FavoritePlace = function(data) {
   */
 }
 
+var Category = function(data) {
+  this.category = ko.observable(data.category);
+}
 
-      var map;
+var map;
 
-      // Create a new blank array for all the listing markers.
-      var markers = [];
+// Create a new blank array for all the listing markers.
+var markers = [];
 
-      // This global polygon variable is to ensure only ONE polygon is rendered.
-      var polygon = null;
+// This global polygon variable is to ensure only ONE polygon is rendered.
+var polygon = null;
 
-      // Create placemarkers array to use in multiple functions to have control
-      // over the number of places that show.
-      var placeMarkers = [];
-	  var defaultIcon = null;
-	  var highlightedIcon = null;
-	  var largeInfowindow = null;
+// Create placemarkers array to use in multiple functions to have control
+// over the number of places that show.
+var placeMarkers = [];
+var defaultIcon = null;
+var highlightedIcon = null;
+var largeInfowindow = null;
 
       function initMap() {
         // Create a styles array to use with the map.
@@ -393,15 +430,17 @@ var FavoritePlace = function(data) {
 
         // The following group uses the location array to create an array of markers on initialize.
         for (var i = 0; i < model.locations.length; i++) {
+          createMarker(model.locations[i]);
+          /*
           // Get the position from the location array.
           var position = model.locations[i].location;
-		  console.log('position')
-		  console.log(position)
-			for (var key in position) {
-				this[key] = position[key];
-			}
-		  console.log(lat)
-		  console.log(lng)
+          console.log('position')
+          console.log(position)
+          for (var key in position) {
+            this[key] = position[key];
+          }
+          console.log(lat)
+          console.log(lng)
 
           var title = model.locations[i].title;
           var placeId = model.locations[i].placeId;
@@ -413,11 +452,12 @@ var FavoritePlace = function(data) {
             icon: defaultIcon,
             //id: i,
             id: placeId, 
-			lat:lat, 
-			lng: lng
+			      lat:lat, 
+			      lng: lng
           });
+          console.log(marker)
 			
-		  model.locations[i].marker.push(marker);
+		      model.locations[i].marker.push(marker);
           // Push the marker to our array of markers.
           markers.push(marker);
           // Create an onclick event to open the large infowindow at each marker.
@@ -433,6 +473,7 @@ var FavoritePlace = function(data) {
           marker.addListener('mouseout', function() {
             this.setIcon(defaultIcon);
           });
+          */
         }
 
 		showListings();
@@ -496,6 +537,51 @@ var FavoritePlace = function(data) {
 		*/
       }
 
+      function createMarker(location) {
+
+        var position = location.location;
+        //console.log('position')
+        //console.log(position)
+        for (var key in position) {
+          this[key] = position[key];
+        }
+        //console.log(lat)
+        //console.log(lng)
+
+        var title = location.title;
+        var placeId = location.placeId;
+        // Create a marker per location, and put into markers array.
+        var marker = new google.maps.Marker({
+          position: position,
+          title: title,
+          animation: google.maps.Animation.DROP,
+          icon: defaultIcon,
+          //id: i,
+          id: placeId, 
+          lat:lat, 
+          lng: lng
+        });
+        console.log(marker)
+    
+        location.marker.push(marker);
+        // Push the marker to our array of markers.
+        markers.push(marker);
+        // Create an onclick event to open the large infowindow at each marker.
+        marker.addListener('click', function() {
+          getPlacesDetails(this, largeInfowindow)
+          //populateInfoWindow(this, largeInfowindow);
+        });
+        // Two event listeners - one for mouseover, one for mouseout,
+        // to change the colors back and forth.
+        marker.addListener('mouseover', function() {
+          this.setIcon(highlightedIcon);
+        });
+        marker.addListener('mouseout', function() {
+          this.setIcon(defaultIcon);
+        });
+      }
+
+      /*
       // This function populates the infowindow when the marker is clicked. We'll only allow
       // one infowindow which will open at the marker that is clicked, and populate based
       // on that markers position.
@@ -541,16 +627,23 @@ var FavoritePlace = function(data) {
           infowindow.open(map, marker);
         }
       }
+      */
 
       // This function will loop through the markers array and display them all.
       function showListings() {
         var bounds = new google.maps.LatLngBounds();
+        console.log('bounds')
+        console.log(bounds)
         // Extend the boundaries of the map for each marker and display the marker
         for (var i = 0; i < markers.length; i++) {
           markers[i].setMap(map);
           bounds.extend(markers[i].position);
         }
         map.fitBounds(bounds);
+        console.log(map.getZoom())
+        if (map.getZoom() > 18) {
+          map.setZoom(18);
+        }
       }
 
       // This function will loop through the listings and hide them all.
@@ -875,11 +968,11 @@ var FavoritePlace = function(data) {
     // executed when a marker is selected, indicating the user wants more
     // details about that place.
     function getPlacesDetails(marker, infowindow) {
+      console.log('getPlacesDetails')
       markers.forEach(function(marker) {
-		 console.log(marker);
-		 marker.setAnimation(null);
-		 marker.setIcon(defaultIcon)
-	  });
+        marker.setAnimation(null);
+        marker.setIcon(defaultIcon)
+      });
 	  console.log(marker)
 	  marker.setAnimation(google.maps.Animation.BOUNCE);
 	  marker.setIcon(highlightedIcon);
@@ -893,32 +986,270 @@ var FavoritePlace = function(data) {
 		  console.log(lat)
 		  console.log(lng)
 		  
-	  
-	  var latitude = marker.position().lat;
-	  var longitude = marker.position().lng;
 	  */
+	  var latitude = marker.lat;
+	  var longitude = marker.lng;
+	  
 	  console.log('latlng')
-	  console.log(lat)
-	  console.log(lng)
-	  //var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + lat + ',' + lng +
-	  //     '&client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118&query=restaurante&limit=5'
-	  var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + lat + ',' + lng +
-	        '&client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118&categoryId=4c38df4de52ce0d596b336e1&limit=5'
-	  
+	  console.log(latitude)
+    console.log(longitude)
+    
+    var yelpString = '';
+    var yelpURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=food&radius=10&latitude=' + latitude + '&longitude=' + longitude
+      console.log(yelpURL)
+    /*
+      $.ajax({
+        type: 'GET',
+        url: yelpURL,
+        headers: {'Authorization': 'Bearer Gvs2ZYNvVHgAQ4fgR3iQ1KhCMxw5LCJ8LsfVG9HE4098aa28fyWa2jzRoxsG-wN3Yk-KEya5B_FUmI3_T5vin22re62JwpOMpDxViwHrFq3Yy32VEqIn1K1XGukjXXYx'}
+    })
+    .done(function (data) {
+      */
+
+    $.ajax({
+      //url: "https://api.yelp.com/v3/businesses/search?term=food&location=45-09+34th+Ave+Long+Island+City+ny+11101&radius=50&price=1,2,3,4",
+      url: yelpURL,
+      headers: {
+        //"Authorization": "Bearer my_token"
+        "Authorization": "Bearer Gvs2ZYNvVHgAQ4fgR3iQ1KhCMxw5LCJ8LsfVG9HE4098aa28fyWa2jzRoxsG-wN3Yk-KEya5B_FUmI3_T5vin22re62JwpOMpDxViwHrFq3Yy32VEqIn1K1XGukjXXYx"
+      },
+      "cors": {
+        "headers": ["Accept", "Authorization", "Content-Type", "If-None-Match", "Accept-language"]
+      },
+      'cache': true,
+      dataType: 'json',
+      success: function(data) {
+        console.log("Your request succeeded!");
+        //debugger;
+
+
+        //alert(data);
+        console.log(data)
+        console.log(data.businesses[0].categories)
+        console.log(data.businesses[0].price)
+
+        if (data.businesses[0].categories != null) {
+          yelpString += '<br><br><strong>Categories:</strong><br>';
+          for (var i=0; i<data.businesses[0].categories.length; i++ ) {
+            yelpString += data.businesses[0].categories[i].title + '<br>';
+          }
+        }
+        if (data.businesses[0].rating != null) {
+          yelpString += '<br><strong>Rating:</strong><br>';
+          yelpString += data.businesses[0].rating + '<br>';
+        }
+        if (data.businesses[0].price != null) {
+          yelpString += '<br><strong>Price:</strong><br>';
+          yelpString += data.businesses[0].price + '<br>';
+        }
+        if (data.businesses[0].image_url) {
+          yelpString += '<br><br><img src="' + data.businesses[0].image_url + '" style="max-height: 100px; max-width: 200px;">';
+        }
+
+
+        //PopulateData(data);
+
+        service.getDetails({
+          placeId: marker.id
+        }, function(place, status) {
+          console.log('place')
+          console.log(place)
+          console.log(place.geometry.location.lat)
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            // Set the marker property on this infowindow so it isn't created again.
+            infowindow.marker = marker;
+            var innerHTML = '<div>';
+            if (place.name) {
+              innerHTML += '<strong>' + place.name + '</strong>';
+            }
+            if (place.formatted_address) {
+              innerHTML += '<br>' + place.formatted_address;
+            }
+            if (place.formatted_phone_number) {
+              innerHTML += '<br>' + place.formatted_phone_number;
+            }
+            //innerHTML += '<br><br><strong>Price:</strong><br>';
+            innerHTML += yelpString;
+            /*
+            if (place.photos) {
+              innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
+                  {maxHeight: 100, maxWidth: 200}) + '">';
+            }
+            */
+            innerHTML += '</div>';
+            infowindow.setContent(innerHTML);
+            infowindow.open(map, marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick', function() {
+              infowindow.marker = null;
+            });
+          }
+        });
+
+      },
+        error: function(data) {
+          console.log("Your Request ended in an error");
+          console.log(data);
+          //debugger;
+        }
+      })
+    
+    /*
+    }).
+    error(function (data) {
+        alert("error: " + JSON.stringify(data));
+    })
+    */
+
+
+
+
+/*
+
+	  var foursquareSearchURL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude +
+	       '&client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118&limit=5'
+
+    console.log(foursquareSearchURL)
+         var venueId ='';
+         var foursquareString ='';
+      $.getJSON(foursquareSearchURL, function( data ) {
+          //for (var i = 0; i < data.response.venues.length; i++) {
+            venueId = data.response.venues[0].id;
+            //foursquareString += data.response.venues[i].name  + '<br>';
+            console.log(data)
+            console.log(venueId)
+          //}
+
+          var foursquareVenueURL = 'https://api.foursquare.com/v2/venues/' + venueId + 
+          '?client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118'
+    
+    
+             //var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude +
+        //      '&client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118&categoryId=4c38df4de52ce0d596b336e1&limit=5'
+        console.log(foursquareVenueURL)
+        //categoryId=4c38df4de52ce0d596b336e1
+        var parkingPlaces = [];
+        
+          $.getJSON(foursquareVenueURL, function( data ) {
+              //for (var i = 0; i < data.response.venues.length; i++) {
+              //  var response = data.response.venues[i];
+              //  foursquareString += data.response.venues[i].name  + '<br>';
+              //  parkingPlaces.push(response);
+                console.log(data)
+                console.log(data.response.venue.price)
+                //console.log(data.response.venue.price.tier)
+                if (data.response.venue.price != null) {
+                  for (var i=0; i<data.response.venue.price.tier; i++ ) {
+                    foursquareString += data.response.venue.price.currency;
+                  }
+                  foursquareString += " " + data.response.venue.price.message  + '<br>';
+                } else {
+                  foursquareString += 'sem avaliacoes <br>';
+                }
+
+                console.log(foursquareString)
+
+                service.getDetails({
+                  placeId: marker.id
+                }, function(place, status) {
+                  console.log('place')
+                  console.log(place)
+                  console.log(place.geometry.location.lat)
+                  if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    // Set the marker property on this infowindow so it isn't created again.
+                    infowindow.marker = marker;
+                    var innerHTML = '<div>';
+                    if (place.name) {
+                      innerHTML += '<strong>' + place.name + '</strong>';
+                    }
+                    if (place.formatted_address) {
+                      innerHTML += '<br>' + place.formatted_address;
+                    }
+                    if (place.formatted_phone_number) {
+                      innerHTML += '<br>' + place.formatted_phone_number;
+                    }
+                    innerHTML += '<br><br><strong>Price:</strong><br>';
+                    console.log('park')
+                    //console.log(parkingPlaces.length)
+                    //for (var i = 0; i < parkingPlaces.length; i++) {
+                    //  console.log(parkingPlaces[i].name)
+                      //parkingPlaces.push(response);
+                      //console.log(response)
+                    //}
+                    innerHTML += foursquareString;
+                    
+                    //if (place.opening_hours) {
+                    //  innerHTML += '<br><br><strong>Hours:</strong><br>' +
+                    //      place.opening_hours.weekday_text[0] + '<br>' +
+                    //      place.opening_hours.weekday_text[1] + '<br>' +
+                    //      place.opening_hours.weekday_text[2] + '<br>' +
+                    //      place.opening_hours.weekday_text[3] + '<br>' +
+                    //      place.opening_hours.weekday_text[4] + '<br>' +
+                    //      place.opening_hours.weekday_text[5] + '<br>' +
+                    //      place.opening_hours.weekday_text[6];
+                    //}
+                    
+                    if (place.photos) {
+                      innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
+                          {maxHeight: 100, maxWidth: 200}) + '">';
+                    }
+                    innerHTML += '</div>';
+                    infowindow.setContent(innerHTML);
+                    infowindow.open(map, marker);
+                    // Make sure the marker property is cleared if the infowindow is closed.
+                    infowindow.addListener('closeclick', function() {
+                      infowindow.marker = null;
+                    });
+                  }
+                });
+              //marker.setAnimation(null);
+          
+
+
+
+
+              //}
+          }).fail(function(){
+              alert("A API do Foursquare retornou com falha. Favor tentar novamente.");
+          });
+    
+
+
+
+      }).fail(function(){
+          alert("A API do Foursquare retornou com falha. Favor tentar novamente.");
+      });
+      */
+      
+      //var foursquareVenueURL = 'https://api.foursquare.com/v2/venues/' + venueId + 
+      //'&client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118'
+
+
+         //var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude +
+	  //      '&client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118&categoryId=4c38df4de52ce0d596b336e1&limit=5'
+    /*
+    console.log(foursquareVenueURL)
 	  //categoryId=4c38df4de52ce0d596b336e1
-	  
-	  	$.getJSON(foursquareURL, function( data ) {
-	        for (var i = 0; i < data.response.venues.length; i++) {
-	        	var response = data.response.venues[i];
-	        	console.log(response)
-	        }
+    var parkingPlaces = [];
+    var foursquareString ='';
+	  	$.getJSON(foursquareVenueURL, function( data ) {
+	        //for (var i = 0; i < data.response.venues.length; i++) {
+          //  var response = data.response.venues[i];
+          //  foursquareString += data.response.venues[i].name  + '<br>';
+          //  parkingPlaces.push(response);
+	        	console.log(data)
+	        //}
 	    }).fail(function(){
 	        alert("Tivemos um problema, tente carregar novamente a página.");
-	    });
-	  
+      });
+      */
+	  /*
       service.getDetails({
         placeId: marker.id
       }, function(place, status) {
+        console.log('place')
+        console.log(place)
+        console.log(place.geometry.location.lat)
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           // Set the marker property on this infowindow so it isn't created again.
           infowindow.marker = marker;
@@ -932,6 +1263,16 @@ var FavoritePlace = function(data) {
           if (place.formatted_phone_number) {
             innerHTML += '<br>' + place.formatted_phone_number;
           }
+          innerHTML += '<br><br><strong>Hours:</strong><br>';
+          console.log('park')
+          //console.log(parkingPlaces.length)
+          //for (var i = 0; i < parkingPlaces.length; i++) {
+          //  console.log(parkingPlaces[i].name)
+            //parkingPlaces.push(response);
+	        	//console.log(response)
+          //}
+          innerHTML += foursquareString;
+          
           if (place.opening_hours) {
             innerHTML += '<br><br><strong>Hours:</strong><br>' +
                 place.opening_hours.weekday_text[0] + '<br>' +
@@ -942,6 +1283,7 @@ var FavoritePlace = function(data) {
                 place.opening_hours.weekday_text[5] + '<br>' +
                 place.opening_hours.weekday_text[6];
           }
+          
           if (place.photos) {
             innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
                 {maxHeight: 100, maxWidth: 200}) + '">';
@@ -955,6 +1297,7 @@ var FavoritePlace = function(data) {
           });
         }
       });
+      */
 	  //marker.setAnimation(null);
     }
 
@@ -962,10 +1305,58 @@ var ViewModel = function() {
   var self = this;
 
   this.favoritePlacesList = ko.observableArray([]);
-
+  //this.choices = [];
   model.locations.forEach(function(location) {
-      self.favoritePlacesList.push( new FavoritePlace(location));
+    self.favoritePlacesList.push( new FavoritePlace(location));
+    //self.choices.push( new Category(location.category))
   })
+
+
+  this.choices = ['all', 'bakery', 'brazilian', 'burgers', 'japanese', 'korean', 'pizza'];
+  this.selectedChoice = ko.observable("all");
+
+  this.selectedChoice.subscribe(function(newValue) {
+      //alert("the new value is " + newValue); 
+      console.log(self.favoritePlacesList)
+      //self.favoritePlacesList=[];
+      model.locations.forEach(function(location) {
+        self.favoritePlacesList.pop();
+      })
+
+      hideMarkers(markers);
+      //largeInfowindow.marker = null;
+      largeInfowindow.close();
+      markers=[];
+      model.locations.forEach(function(location) {
+        //self.favoritePlacesList.push( new FavoritePlace(location));
+
+        console.log(newValue)
+        if (location.category === newValue || newValue == 'all') {
+          self.favoritePlacesList.push( new FavoritePlace(location));
+          //location.marker.push(marker);
+          // Push the marker to our array of markers.
+          createMarker(location)
+          //markers.push(location.marker);
+
+        //} else {
+        //  if (newValue == 'all') {
+        //    self.favoritePlacesList.push( new FavoritePlace(location));
+        //    createMarker(location)
+        //  }
+        }
+      })
+      showListings();
+      
+  
+  });
+
+  this.chosenSelection = ko.observable();
+
+
+  this.selectionChanged = function(clickedSelection) {
+    console.log('selection')
+    console.log(clickedSelection)
+  }
 
   this.locationClick = function(clickedLocation) {
     console.log('click')

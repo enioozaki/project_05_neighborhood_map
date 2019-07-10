@@ -116,3 +116,40 @@ Location Menu
 	color: black;
 }
 
+/*FILTER*/
+
+.filter {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.filter-title h2 {
+  font-size: 20px;
+  margin-top: -10px;
+  margin-bottom: 0;
+}
+
+.dropdown {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.filter-lst select {
+  margin-bottom: 10px;
+  font-size: 12px;
+  height: 30px;
+}
+
+.filter-btn {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.filter-btn:active {
+  background-color: darkgray;
+  color: black;
+}
