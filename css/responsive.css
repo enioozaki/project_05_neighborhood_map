@@ -7,29 +7,17 @@
     display: none;
   }
 
-  .hero, .top-news, .scores, .weather, .recent-news {
-    order: 10;
-  }
 
 @media screen and (max-width: 549px) {
 
-    .header__logo {
-        height: 48px;
-        margin-right: 0.5em;
-    }
-    .header__title {
-        margin-left: 0;
-        font-size: 2em;
-        vertical-align: bottom; 
-      }
     .nav {
         z-index: 10;
         background-color: #fff;
         width: 300px;
         position: absolute;
         /* This trasform moves the drawer off canvas. */
-        -webkit-transform: translate(-300px, 0);
-        transform: translate(-300px, 0);
+        -webkit-transform: translate(-320px, 0);
+        transform: translate(-320px, 0);
         /* Optionally, we animate the drawer. */
         transition: transform 0.3s ease;
     }
@@ -37,29 +25,42 @@
         -webkit-transform: translate(0, 0);
         transform: translate(0, 0);
     }
+
     .nav__item {
         display: list-item;
         border-bottom: 1px solid #E0E0E0;
         width: 100%;
         text-align: left;
-      }
+    }
+
     .header__menu {
         display: inline-block;
         position: absolute;
-        right: 0;
+        left: 0;
+		top: -5px;
         padding: 1em;
-      }
-      .header__menu svg {
+    }
+
+    .header__menu svg {
         width: 32px;
         fill: #E0E0E0;
-      }
-      #map {
+    }
+
+	.header__inner {
+	  width: 100%;
+	  margin-left: 25px;
+	  margin-right: auto;
+	  padding-top: 15px;
+	}
+	  
+    #map {
         bottom:0px;
         height: 100%;
-        left: 22px;
+        left: 0px;
         position: absolute;
         right: 0px;
-      }
+		top: 60px;
+    }
 
 }
 
@@ -67,32 +68,13 @@
     .content {
         width: 100%
     }
-    .hero {
-        width: 60%;
-        order: 0;
-    }
-    .top-news {
-        width: 100%;
-        order: 2;
-    }
-    .scores {
-        width: 100%;
-        order: 3;
-    }
-    .weather {
-        width: 40%;
-        order: 1;
-    }
-    .recent-news {
-        width: 100%;
-        order: 4;
-    }
     #map {
         bottom:0px;
         height: 100%;
         left: 262px;
         position: absolute;
         right: 0px;
+		top: 60px;
     }
 
 }
@@ -101,33 +83,13 @@
     .content {
         width: 100%
     }
-    .hero {
-        width: 50%;
-        order: 0;
-    }
-    .top-news {
-        width: 50%;
-        order: 1;
-        height: 100%;
-    }
-    .scores {
-        width: 60%;
-        order: 2;
-    }
-    .weather {
-        width: 40%;
-        order: 3;
-    }
-    .recent-news {
-        width: 100%;
-        order: 4;
-    }
     #map {
         bottom:0px;
         height: 100%;
         left: 262px;
         position: absolute;
         right: 0px;
+		top: 60px;
     }
 }
 
@@ -137,32 +99,12 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .hero {
-        width: 50%;
-        order: 0;
-    }
-    .top-news {
-        width: 50%;
-        order: 1;
-        height: 100%;
-    }
-    .scores {
-        width: 60%;
-        order: 2;
-    }
-    .weather {
-        width: 40%;
-        order: 3;
-    }
-    .recent-news {
-        width: 100%;
-        order: 4;
-    }
     #map {
         bottom:0px;
         height: 100%;
         left: 262px;
         position: absolute;
         right: 0px;
+		top: 60px;
     }
 }
