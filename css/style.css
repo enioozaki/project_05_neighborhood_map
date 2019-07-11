@@ -1,3 +1,4 @@
+   
       html,
       body {
         font-family: Arial, sans-serif;
@@ -34,13 +35,7 @@
         border: none;
       }
 
-      #map {
-        bottom:0px;
-        height: 100%;
-        left: 362px;
-        position: absolute;
-        right: 0px;
-      }
+
 
       .options-box {
         background: #fff;
@@ -50,7 +45,7 @@
         line-height: 35px;
         padding: 10px 10px 30px 10px;
         text-align: left;
-        width: 340px;
+        width: 240px;
       }
 
       #pano {
@@ -132,13 +127,86 @@ Location Menu
 
 .selection {
   display: block;
-  margin-bottom: 20px;
   font-size: 12px;
 }
 
-.filter-lst select {
-  margin-bottom: 10px;
-  font-size: 12px;
-  height: 30px;
+.header {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  min-height: 56px;
+  transition: min-height 0.3s;
+  background-color: #232afa;
 }
 
+.header__inner {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header__logo {
+  height: 72px;
+  margin-right: 1em;
+  vertical-align: top;
+  margin-top: 12px;
+}
+
+.header__title {
+  font-weight: 300;
+  font-size: 2em;
+  margin: 0.5em 0.25em;
+  display: inline-block;
+  color: #ddd;
+}
+
+/*
+ *
+ * Top Level Navigation
+ *
+ */
+
+ .nav {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav__list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.nav__item {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  line-height: 24px;
+  padding: 24px;
+  text-transform: uppercase;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #616161;
+  padding: 1.5em;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+  color: #212121;
+}
+
+
+/*
+ *
+ * Main
+ *
+ */
+
+main {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
