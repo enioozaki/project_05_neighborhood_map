@@ -1,50 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>My Casual Restaurants</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" type="text/css">
-  
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
-
-    <style>
-    </style>
   </head>
   <body>
     <div class="container">
       <div class=" ">
-	    <header class="header">
-			<div class="header__inner">
-			  <h1>My Casual Restaurants</h1>
-			  <a id="menu" class="header__menu">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-				  <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
-				</svg>
-			  </a> 
-			<div>
+        <header class="header">
+          <div class="header__inner">
+            <h1>My Casual Restaurants</h1>
+            <a id="menu" class="header__menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
+              </svg>
+            </a> 
+          </div>
         </header>
         <nav id="drawer" class="nav location-menu">
-            <div class="filter">
-                <div class="filter-title">
-                    <h2>Categories</h2>
-                </div>
-                <div class="selection">
-                <select data-bind="options: choices, value: selectedChoice"></select>
-                </div>
-              </div>
-              <ul data-bind="foreach: favoritePlacesList">
-                <li class="nav__item" data-bind="text: title, click: $parent.locationClick"></li>
-              </ul>          
+          <div class="filter">
+            <div class="filter-title">
+              <h2>Categories</h2>
+            </div>
+            <div class="selection">
+              <select data-bind="options: choices, value: selectedChoice"></select>
+            </div>
+          </div>
+          <ul data-bind="foreach: favoritePlacesList">
+            <li class="nav__item" data-bind="text: title, click: $parent.locationClick"></li>
+          </ul>          
         </nav>
-
-      
-	  </div>
-	  
+      </div>
       <main>
-          <div id="map"></div>
+        <div id="map"></div>
       </main>
     </div>
 
@@ -53,9 +46,9 @@
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/app.js"></script>
     <script async defer
-        src=
-        "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyCXJoc9EePESZBHrMMoI_uuhC3LZmMsd4A&v=3&callback=initMap"
-		onerror="googleMapsApiError()">
+    src=
+    "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyCXJoc9EePESZBHrMMoI_uuhC3LZmMsd4A&v=3&callback=initMap"
+    onerror="googleMapsApiError()">
     </script>
 
 

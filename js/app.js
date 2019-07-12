@@ -11,7 +11,6 @@ var model = {
     },
     {
       title: '1900 Pizzeria', 
-      //location: {lat: -23.5945034, lng: -46.6422251}, 
       location: {lat: -23.5945148, lng: -46.6420329}, 
       placeId: 'ChIJ0zuA8SVazpQRaGnZGc3EVn4',
       marker: [],
@@ -20,7 +19,6 @@ var model = {
     },
     {
       title: 'Vila Grano Paes', 
-      //location: {lat: -23.5972949, lng: -46.6402278}, 
       location: {lat: -23.5972376, lng: -46.640349}, 
       placeId: 'ChIJOddf3S9azpQRwZI-YDP8wSY',
       marker: [],
@@ -37,7 +35,6 @@ var model = {
     },
     {
       title: 'Charles Pizzaria', 
-      //location: {lat: -23.6157234, lng: -46.6434492}, 
       location: {lat: -23.6159849, lng: -46.6434456}, 
       placeId: 'ChIJI_rvBUVazpQRyf17kS3uQgE',
       marker: [],
@@ -113,7 +110,6 @@ var highlightedIcon = null;
 var largeInfowindow = null;
 
 function initMap() {
-// Create a styles array to use with the map.
 
 	var styles = [
 	  {
@@ -367,7 +363,6 @@ function initMap() {
 	  }
 	];
 
-	// Constructor creates a new map - only center and zoom are required.
 	map = new google.maps.Map(document.getElementById('map'), {
 	  center: {lat: -23.5994071, lng: -46.6373353},
 	  zoom: 13,
@@ -407,7 +402,6 @@ function gm_authFailure()
 	  title: title,
 	  animation: google.maps.Animation.DROP,
 	  icon: defaultIcon,
-	  //id: i,
 	  id: placeId, 
 	  lat:lat, 
 	  lng: lng
@@ -433,7 +427,6 @@ function gm_authFailure()
 	  bounds.extend(markers[i].position);
 	}
 	map.fitBounds(bounds);
-	console.log(map.getZoom())
 	if (map.getZoom() > 18) {
 	  map.setZoom(18);
 	}
@@ -468,7 +461,6 @@ function gm_authFailure()
 		var yelpString = '';
 		var YOUR_YELP_API_KEY = 'Gvs2ZYNvVHgAQ4fgR3iQ1KhCMxw5LCJ8LsfVG9HE4098aa28fyWa2jzRoxsG-wN3Yk-KEya5B_FUmI3_T5vin22re62JwpOMpDxViwHrFq3Yy32VEqIn1K1XGukjXXYx';
 		var yelpURL = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=food&radius=10&latitude=' + latitude + '&longitude=' + longitude
-		  console.log(yelpURL)
 		$.ajax({
 		  url: yelpURL,
 		  headers: {
@@ -501,7 +493,6 @@ function gm_authFailure()
 			  placeId: marker.id
 			}, function(place, status) {
 			  if (status === google.maps.places.PlacesServiceStatus.OK) {
-				// Set the marker property on this infowindow so it isn't created again.
 				infowindow.marker = marker;
 				var innerHTML = '<div>';
 				if (place.name) {
@@ -513,7 +504,6 @@ function gm_authFailure()
 				if (place.formatted_phone_number) {
 				  innerHTML += '<br>' + place.formatted_phone_number;
 				}
-				//innerHTML += '<br><br><strong>Price:</strong><br>';
 				innerHTML += yelpString;
 				/*
 				if (place.photos) {
@@ -527,7 +517,6 @@ function gm_authFailure()
 				marker.setAnimation(google.maps.Animation.BOUNCE);
 				marker.setIcon(highlightedIcon);
 
-				// Make sure the marker property is cleared if the infowindow is closed.
 				infowindow.addListener('closeclick', function() {
 				  infowindow.marker = null;
 				});
@@ -537,11 +526,8 @@ function gm_authFailure()
 				infowindow.open(map, marker);
 			  }
 			});
-
 		},
 			error: function(data) {
-			  console.log("Your Request ended in an error");
-			  console.log(data);
 				var innerHTML = '<div> <h1 style="color:#FF0000";>Error in Yelp request! </h1></div>';
 				infowindow.setContent(innerHTML);
 				infowindow.open(map, marker);
@@ -549,10 +535,10 @@ function gm_authFailure()
 		})
     
 
-// alternative to Yelp call
+	// alternative to Yelp call
 
-/*
-	  var foursquareSearchURL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude +
+	/*
+	var foursquareSearchURL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude +
 	       '&client_id=W4YU1GJPKZDBD5IBLYY3TIIYWLTBJ2YG1XLJUDX4C2QZHKWO&client_secret=SP4ZJF00DNY4A21CHNEKCABX5XCKJCH41W2XVWKKYEF5EGUA&v=20160118&limit=5'
 
 		 console.log(foursquareSearchURL)
@@ -634,10 +620,10 @@ function gm_authFailure()
           });
       }).fail(function(){
           alert("A API do Foursquare retornou com falha. Favor tentar novamente.");
-      });
-      */
+    });
+    */
     
-    }
+  }
 
 var ViewModel = function() {
   var self = this;
@@ -667,12 +653,6 @@ var ViewModel = function() {
   });
 
   this.chosenSelection = ko.observable();
-
-
-  this.selectionChanged = function(clickedSelection) {
-    console.log('selection')
-    console.log(clickedSelection)
-  }
 
   this.locationClick = function(clickedLocation) {
     getPlacesDetails(clickedLocation.marker()[0], largeInfowindow)
